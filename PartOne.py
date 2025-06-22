@@ -59,15 +59,16 @@ def read_novels(path=Path.cwd() / "texts" / "novels"):
         return pd.DataFrame(columns=['text', 'title', 'author', 'year'])
     
     txt_files = glob.glob(os.path.join(directory_path,'*.txt'))
-
-    for novel in text_files:
+    # print (txt_files)
+    for novel in txt_files:
         with open(novel,'r') as file:
             content = file.read()
 
             file_name = os.path.basename(novel)
-            file_name_noext = file_name[0]
+            print(file_name)
+            file_name_noext = os.path.splitext( file_name)[0]
             parts = file_name_noext.split('-')
-
+            print (parts)
             year = int(parts[-1])
             author = parts[-2]
             title = parts[:-2]
@@ -83,10 +84,10 @@ def read_novels(path=Path.cwd() / "texts" / "novels"):
 
     
     df = pd.DataFrame(novel_data)
+    return df
+    # df_sorted = df.sort_values(by='year', ascending=True).reset_index(drop=True)
 
-    df_sorted = df.sort_values(by='year', ascending=True).reset_index(drop=True)
-
-    return df_sorted
+    # return df_sorted
 
     
 

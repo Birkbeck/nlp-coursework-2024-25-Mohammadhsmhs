@@ -1,4 +1,6 @@
 import PartOne as p1
 
-p1.read_novels(path='p1-texts')
+read_novels_df = p1.read_novels(path='p1-texts/novels')
+
+print(read_novels_df)
 
