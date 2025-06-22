@@ -65,15 +65,16 @@ def read_novels(path=Path.cwd() / "texts" / "novels"):
             content = file.read()
 
             file_name = os.path.basename(novel)
-            print(file_name)
+            
             file_name_noext = os.path.splitext( file_name)[0]
             parts = file_name_noext.split('-')
-            print (parts)
+            
             year = int(parts[-1])
             author = parts[-2]
             title = parts[:-2]
-
-            title = ' '.join(title)
+            print(title)
+            title = '_'.join(title)
+            title =title.replace('_',' ')
         
         novel_data.append({
             'text': content,
