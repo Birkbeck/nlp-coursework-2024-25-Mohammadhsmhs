@@ -3,6 +3,7 @@
 # Note: The template functions here and the dataframe format for structuring your solution is a suggested but not mandatory approach. You can use a different approach if you like, as long as you clearly answer the questions and communicate your answers clearly.
 
 import nltk
+from nltk.tokenize import word_tokenize
 import spacy
 from pathlib import Path
 import pandas as pd
@@ -101,8 +102,20 @@ def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
 
 def nltk_ttr(text):
     """Calculates the type-token ratio of a text. Text is tokenized using nltk.word_tokenize."""
-    pass
+    
+    tokens = word_tokenize(text)
 
+    processed_tokens = []
+
+    for token in tokens:
+        token_lower = token.lower()
+        if token_lower.isalpha():
+            processed_tokens.append(token_lower)
+
+        num_tokens = len(processed_tokens)
+        num_types = len(set(processed_tokens))
+        ttr= num_types/num_tokens
+        return ttr
 
 def get_ttrs(df):
     """helper function to add ttr to a dataframe"""
