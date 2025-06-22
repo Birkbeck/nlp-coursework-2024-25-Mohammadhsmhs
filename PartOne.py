@@ -112,11 +112,14 @@ def nltk_ttr(text):
         token_lower = token.lower()
         if token_lower.isalpha():
             processed_tokens.append(token_lower)
-
-        num_tokens = len(processed_tokens)
-        num_types = len(set(processed_tokens))
-        ttr= num_types/num_tokens
-        return ttr
+    
+        if len(processed_tokens)>0:
+            num_tokens = len(processed_tokens)
+            num_types = len(set(processed_tokens))
+            ttr= num_types/num_tokens
+            return ttr
+        else:
+            return 0
 
 def get_ttrs(df):
     """helper function to add ttr to a dataframe"""
