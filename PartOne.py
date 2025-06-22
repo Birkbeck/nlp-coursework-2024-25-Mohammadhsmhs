@@ -14,6 +14,7 @@ import os
 nlp = spacy.load("en_core_web_sm")
 nlp.max_length = 2000000
 
+nltk.download('punkt_tab')
 
 
 def fk_level(text, d):

@@ -10,7 +10,7 @@ print(read_novels_df)
 
 ttr_ratios = {}
 
-for index, row in read_novels_df.iterrows:
+for index, row in read_novels_df.iterrows():
     title = row['title']
     text = str(row['text'])
     ttr = p1.nltk_ttr(text=text)
