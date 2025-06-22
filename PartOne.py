@@ -5,6 +5,9 @@
 import nltk
 import spacy
 from pathlib import Path
+import pandas as pd
+import glob
+import os
 
 
 nlp = spacy.load("en_core_web_sm")
@@ -43,7 +46,49 @@ def count_syl(word, d):
 def read_novels(path=Path.cwd() / "texts" / "novels"):
     """Reads texts from a directory of .txt files and returns a DataFrame with the text, title,
     author, and year"""
-    pass
+
+    novel_data = []
+
+    directory_path = Path(path)
+
+    if not directory_path.exists():
+        print(f"Error: Directory not found at '{directory_path}'")
+        return pd.DataFrame(columns=['text', 'title', 'author', 'year'])
+    if not directory_path.is_dir():
+        print(f"Error: Path '{directory_path}' is not a directory.")
+        return pd.DataFrame(columns=['text', 'title', 'author', 'year'])
+    
+    txt_files = glob.glob(os.path.join(directory_path,'*.txt'))
+
+    for novel in text_files:
+        with open(novel,'r') as file:
+            content = file.read()
+
+            file_name = os.path.basename(novel)
+            file_name_noext = file_name[0]
+            parts = file_name_noext.split('-')
+
+            year = int(parts[-1])
+            author = parts[-2]
+            title = parts[:-2]
+
+            title = ' '.join(title)
+        
+        novel_data.append({
+            'text': content,
+            'title': title,
+            'author': author,
+            'year': year
+        })
+
+    
+    df = pd.DataFrame(novel_data)
+
+    df_sorted = df.sort_values(by='year', ascending=True).reset_index(drop=True)
+
+    return df_sorted
+
+    
 
 
 def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
