@@ -3,12 +3,14 @@
 # Note: The template functions here and the dataframe format for structuring your solution is a suggested but not mandatory approach. You can use a different approach if you like, as long as you clearly answer the questions and communicate your answers clearly.
 
 import nltk
-from nltk.tokenize import word_tokenize
+from nltk.tokenize import word_tokenize, sent_tokenize
+from nltk.corpus import cmudict
 import spacy
 from pathlib import Path
 import pandas as pd
 import glob
 import os
+
 
 
 nlp = spacy.load("en_core_web_sm")
@@ -28,7 +30,31 @@ def fk_level(text, d):
     Returns:
         float: The Flesch-Kincaid Grade Level of the text. (higher grade is more difficult)
     """
-    pass
+    sentences = sent_tokenize(text)
+    num_sentences = len(sentences)
+    if num_sentences == 0:
+        return 0.0 
+
+    
+    total_words = 0
+    total_syllables = 0
+
+    for sentence in sentences:
+        
+        words = [word.lower() for word in word_tokenize(sentence) if word.isalpha()]
+        total_words += len(words)
+
+        for word in words:
+            total_syllables += count_syl(word, d) 
+
+    if total_words == 0:
+        return 0.0 
+
+    score = (0.39 * (total_words / num_sentences)) + \
+            (11.8 * (total_syllables / total_words)) - 15.59
+
+    return score
+
 
 
 def count_syl(word, d):
@@ -42,7 +68,30 @@ def count_syl(word, d):
     Returns:
         int: The number of syllables in the word.
     """
-    pass
+    word_lower = word.lower()
+    
+    if word_lower in d:
+
+        num_vowels = 0
+        for phonem in d[word_lower][0]:
+            if phonem[-1].isdigit():
+                num_vowels+=1
+        return max(1,num_vowels)
+    else:
+        count =0
+        vowels = 'aeiouy'
+        word_lower = word.lower()
+        if word_lower[0] in vowels:
+            count+=1
+            for index in range(1, len(word_lower)):
+                if word_lower[index] in vowels and word_lower[index - 1] not in vowels:
+                    count += 1
+        
+        if word_lower.endswith("e"):
+            count -= 1
+        if word_lower.endswith("le") and len(word_lower) > 2 and word_lower[-3] not in vowels:
+            count += 1
+        return max(1, count) 
 
 
 def read_novels(path=Path.cwd() / "texts" / "novels"):
@@ -103,23 +152,25 @@ def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
 
 def nltk_ttr(text):
     """Calculates the type-token ratio of a text. Text is tokenized using nltk.word_tokenize."""
-    
+
+
     tokens = word_tokenize(text)
 
     processed_tokens = []
 
     for token in tokens:
         token_lower = token.lower()
+
         if token_lower.isalpha():
             processed_tokens.append(token_lower)
-    
-        if len(processed_tokens)>0:
-            num_tokens = len(processed_tokens)
-            num_types = len(set(processed_tokens))
-            ttr= num_types/num_tokens
-            return ttr
-        else:
-            return 0
+    # print(f"Processed tokens (lowercase, no punctuation): {processed_tokens}")
+    if len(processed_tokens)>0:
+        num_tokens = len(processed_tokens)
+        num_types = len(set(processed_tokens))
+        ttr= num_types/num_tokens
+        return ttr
+    else:
+        return 0
 
 def get_ttrs(df):
     """helper function to add ttr to a dataframe"""
