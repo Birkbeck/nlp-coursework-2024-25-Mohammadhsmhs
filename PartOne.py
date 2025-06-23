@@ -210,8 +210,16 @@ def subjects_by_verb_pmi(doc, target_verb):
 def subjects_by_verb_count(doc, verb):
     """Extracts the most common subjects of a given verb in a parsed document. Returns a list."""
     
-    # subjects = 
-    pass
+    subjects = []
+
+    for token in doc:
+        if token.lemma_.lower() == verb and token.pos_ =="VERB":
+            for child in token.children:
+                if child.dep_ in ['nsubj','nsubjpass','agent'] and child.is_alpha:
+                    subjects.append(child.text.lower())
+
+    return Counter(subjects).most_common(10)
+    
 
 
 
@@ -243,19 +251,19 @@ if __name__ == "__main__":
     print(get_fks(df))
     df = pd.read_pickle(Path.cwd() / "pickles" /"name.pickle")
     # print(adjective_counts(df))
-
+    print("\n printing common syntatic objects")
     for i,row in df.iterrows():
         print(row['title'])
         print(row)
         print(common_syntatic_objects(row['parsed']))
         print("\n")
 
-    """ 
+    print("\n printing subjects by verb count")
     for i, row in df.iterrows():
         print(row["title"])
         print(subjects_by_verb_count(row["parsed"], "hear"))
         print("\n")
-
+    """
     for i, row in df.iterrows():
         print(row["title"])
         print(subjects_by_verb_pmi(row["parsed"], "hear"))
