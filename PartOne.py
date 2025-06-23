@@ -2,6 +2,7 @@
 
 # Note: The template functions here and the dataframe format for structuring your solution is a suggested but not mandatory approach. You can use a different approach if you like, as long as you clearly answer the questions and communicate your answers clearly.
 
+import math
 import nltk
 from nltk.tokenize import word_tokenize, sent_tokenize
 from nltk.corpus import cmudict
@@ -203,7 +204,36 @@ def get_fks(df):
 
 def subjects_by_verb_pmi(doc, target_verb):
     """Extracts the most common subjects of a given verb in a parsed document. Returns a list."""
-    pass
+    
+    total_tokens_in_doc = len([token for token in doc if token.is_alpha])
+
+    verb_counts = Counter(token.lemma_.lower() for token in doc if token.pos_ == "VERB" and token.is_alpha)
+
+    count_y = verb_counts.get(target_verb,0)
+
+    if count_y ==0:
+        return []
+    
+    subject_verb_co_occurrences = Counter()
+    all_alphabetic_tokens = Counter(token.lemma_.lower() for token in doc if token.is_alpha)
+
+    for token in doc:
+        if token.lemma_.lower() == target_verb and token.pos_ == "VERB":
+            for child in token.children:
+                if child.dep_ in ['nsubj','nsubjpass','agent'] and child.is_alpha:
+                    subject_lemma = child.lemma_.lower()
+                    subject_verb_co_occurrences[subject_lemma] +=1
+    pmi_scores = {}
+
+    for subject_lemma, count_xy in subject_verb_co_occurrences.items():
+        count_x = all_alphabetic_tokens.get(subject_lemma,0)
+
+        if count_x > 0 and count_y > 0:
+            pmi = math.log2((count_xy * total_tokens_in_doc) / (count_x * count_y))
+            pmi_scores[subject_lemma] = pmi
+
+    sorted_pmi_scores = sorted(pmi_scores.items(), key=lambda item: item[1], reverse=True)
+    return sorted_pmi_scores[:10]
 
 
 
@@ -263,10 +293,10 @@ if __name__ == "__main__":
         print(row["title"])
         print(subjects_by_verb_count(row["parsed"], "hear"))
         print("\n")
-    """
+    print("\n printing subjects by verb pmi")
     for i, row in df.iterrows():
         print(row["title"])
         print(subjects_by_verb_pmi(row["parsed"], "hear"))
         print("\n")
-    """
+    
 
