@@ -10,7 +10,6 @@ from pathlib import Path
 import pandas as pd
 import glob
 import os
-import pickle
 
 
 
@@ -18,7 +17,7 @@ nlp = spacy.load("en_core_web_sm")
 nlp.max_length = 2000000
 
 nltk.download('punkt_tab')
-nltk.download('cmudict')
+# nltk.download('cmudict')
 
 
 def fk_level(text, d):
@@ -151,6 +150,8 @@ def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
     the resulting  DataFrame to a pickle file"""
 
     pickle_filepath = store_path / out_name
+    print(out_name)
+    print(pickle_filepath)
 
     store_path.mkdir(parents=True, exist_ok=True)
 
@@ -227,7 +228,7 @@ if __name__ == "__main__":
     df = read_novels(path) # this line will fail until you have completed the read_novels function above.
     print(df.head())
     nltk.download("cmudict")
-    parse(df)
+    parse(df, out_name='name.pickle')
     print(df.head())
     print(get_ttrs(df))
     print(get_fks(df))
