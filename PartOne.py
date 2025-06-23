@@ -217,7 +217,7 @@ def adjective_counts(doc):
     """Extracts the most common adjectives in a parsed document. Returns a list of tuples."""
     adjectives = []
     for token in doc:
-        if token.pos_ =="ADJ" and token.isalpha:
+        if token.pos_ =="ADJ" and token.is_alpha:
             adjectives.append(token.text.lower())
 
     return Counter(adjectives).most_common(10)
@@ -238,11 +238,13 @@ if __name__ == "__main__":
     print(get_ttrs(df))
     print(get_fks(df))
     df = pd.read_pickle(Path.cwd() / "pickles" /"name.pickle")
-    print(adjective_counts(df))
+    # print(adjective_counts(df))
 
     for i,row in df.iterrows():
         print(row['title'])
-        print(adjective_counts(row['parsed']))
+        print(row)
+        print(adjective_counts(row['doc_object']))
+        print("\n")
 
     """ 
     for i, row in df.iterrows():
