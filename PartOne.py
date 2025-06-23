@@ -155,7 +155,7 @@ def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
 
     store_path.mkdir(parents=True, exist_ok=True)
 
-    df['doc_object'] = list(nlp.pipe(df['text']))
+    df['parsed'] = list(nlp.pipe(df['text']))
 
     df.to_pickle(pickle_filepath)
 
@@ -209,18 +209,22 @@ def subjects_by_verb_pmi(doc, target_verb):
 
 def subjects_by_verb_count(doc, verb):
     """Extracts the most common subjects of a given verb in a parsed document. Returns a list."""
+    
+    # subjects = 
     pass
 
 
 
-def adjective_counts(doc):
+def common_syntatic_objects(doc):
     """Extracts the most common adjectives in a parsed document. Returns a list of tuples."""
-    adjectives = []
-    for token in doc:
-        if token.pos_ =="ADJ" and token.is_alpha:
-            adjectives.append(token.text.lower())
+    objects = []
 
-    return Counter(adjectives).most_common(10)
+    object_deps = {"dobj","iobj","pobj"}
+    for token in doc:
+        if token.dep_ in object_deps and token.is_alpha:
+            objects.append(token.text.lower())
+
+    return Counter(objects).most_common(10)
 
 
 
@@ -243,7 +247,7 @@ if __name__ == "__main__":
     for i,row in df.iterrows():
         print(row['title'])
         print(row)
-        print(adjective_counts(row['doc_object']))
+        print(common_syntatic_objects(row['parsed']))
         print("\n")
 
     """ 
