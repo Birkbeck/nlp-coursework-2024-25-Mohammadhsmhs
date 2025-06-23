@@ -10,7 +10,7 @@ from pathlib import Path
 import pandas as pd
 import glob
 import os
-
+from collections import Counter
 
 
 nlp = spacy.load("en_core_web_sm")
@@ -215,7 +215,12 @@ def subjects_by_verb_count(doc, verb):
 
 def adjective_counts(doc):
     """Extracts the most common adjectives in a parsed document. Returns a list of tuples."""
-    pass
+    adjectives = []
+    for token in doc:
+        if token.pos_ =="ADJ" and token.isalpha:
+            adjectives.append(token.text.lower())
+
+    return Counter(adjectives).most_common(10)
 
 
 
@@ -228,12 +233,17 @@ if __name__ == "__main__":
     df = read_novels(path) # this line will fail until you have completed the read_novels function above.
     print(df.head())
     nltk.download("cmudict")
-    parse(df, out_name='name.pickle')
+    # parse(df, out_name='name.pickle')
     print(df.head())
     print(get_ttrs(df))
     print(get_fks(df))
     df = pd.read_pickle(Path.cwd() / "pickles" /"name.pickle")
-    # print(adjective_counts(df))
+    print(adjective_counts(df))
+
+    for i,row in df.iterrows():
+        print(row['title'])
+        print(adjective_counts(row['parsed']))
+
     """ 
     for i, row in df.iterrows():
         print(row["title"])
