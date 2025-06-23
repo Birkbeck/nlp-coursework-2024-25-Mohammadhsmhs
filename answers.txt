@@ -1,1 +1,13 @@
 Answers to the text questions go here.
+
+part D answer :    
+    1- Technical text : this method relies on sentences lenght and syllable count to asses dificulty 
+        however this can sometimes lead to inaccurate results. for example if a text is about an abstract
+        subject that is hard to understand but is written in simple words , would get a low fk score 
+        despite being hard. or a specialized text might seem to use long words and scored as hard to understand
+        but is actually easy to understand for the target audience.
+    2- Figurative language, Irony and idioms:
+        fk can not detect literacy devices that increase cognative load,such as metaphors, irony, idioms.
+        A sentence that is grammatically simple but conceptually profound or ironic
+        might score as "easy" even if it requires significant interpretation.
+
