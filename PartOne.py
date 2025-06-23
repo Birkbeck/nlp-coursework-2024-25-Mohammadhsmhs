@@ -10,6 +10,7 @@ from pathlib import Path
 import pandas as pd
 import glob
 import os
+import pickle
 
 
 
@@ -148,7 +149,16 @@ def read_novels(path=Path.cwd() / "texts" / "novels"):
 def parse(df, store_path=Path.cwd() / "pickles", out_name="parsed.pickle"):
     """Parses the text of a DataFrame using spaCy, stores the parsed docs as a column and writes 
     the resulting  DataFrame to a pickle file"""
-    pass
+
+    pickle_filepath = store_path / out_name
+
+    store_path.mkdir(parents=True, exist_ok=True)
+
+    df['doc_object'] = list(nlp.pipe(df['text']))
+
+    df.to_pickle(pickle_filepath)
+
+    return df
 
 
 def nltk_ttr(text):
@@ -221,7 +231,7 @@ if __name__ == "__main__":
     print(df.head())
     print(get_ttrs(df))
     print(get_fks(df))
-    #df = pd.read_pickle(Path.cwd() / "pickles" /"name.pickle")
+    df = pd.read_pickle(Path.cwd() / "pickles" /"name.pickle")
     # print(adjective_counts(df))
     """ 
     for i, row in df.iterrows():
