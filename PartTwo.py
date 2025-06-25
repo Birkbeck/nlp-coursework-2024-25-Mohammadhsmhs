@@ -2,7 +2,7 @@ import pandas as pd
 from pathlib import Path
 
 
-def prepare_speach_data(path):
+def prepare_speech_data(path):
     """
     Read the hansard40000.csv dataset in the texts directory into a dataframe. Sub- 8
     set and rename the dataframe as follows:
@@ -34,8 +34,10 @@ def prepare_speach_data(path):
 
     print(df.shape)
 
-    
+    return df
 
+    
+# def vectorize_split_data():
 
 
 if __name__=="__main__":
@@ -44,4 +46,4 @@ if __name__=="__main__":
     data_dir = Path.cwd() / "p2-texts"
     csv_file = data_dir / "hansard40000.csv"
 
-    prepare_speach_data(csv_file)
+    speech_df =  prepare_speech_data(csv_file)
