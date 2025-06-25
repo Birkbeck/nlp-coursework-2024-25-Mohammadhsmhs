@@ -1,7 +1,7 @@
 import pandas as pd 
 from pathlib import Path
 
-from sklearn.feature_extraction.text import TfidfVectorizer # Import TfidfVectorizer
+from sklearn.feature_extraction.text import TfidfVectorizer 
 from sklearn.model_selection import train_test_split 
 
 
@@ -48,14 +48,19 @@ def vectorize_split_data(df):
     random seed of 26.
     """
     random_seed = 26
-    vectorizer = TfidfVectorizer(stop_words='English', max_features=3000)
+    vectorizer = TfidfVectorizer(stop_words='english', max_features=3000)
     X = vectorizer.fit_transform(df['speech'])
     y = df['party']
 
-    print(x_train, x_test, y_train, y_test = train_test_split(
+    x_train, y_train, x_test, y_test = train_test_split(
         X, y, test_size=0.2, random_state=random_seed, stratify=y
-    ))
-    print (x_train, y_train, x_test, y_test)
+    )
+
+    print(f"X_train shape: {x_train.shape}")
+    print(f"X_test shape: {x_test.shape}")
+    print(f"y_train shape: {y_train.shape}")
+    print(f"y_test shape: {y_test.shape}")
+ 
     return x_train, y_train, x_test, y_test
 
 
@@ -68,6 +73,6 @@ if __name__=="__main__":
 
     speech_df =  prepare_speech_data(csv_file)
 
-    x_train, y_train, x_test, y_test = train_test_split(speech_df)
+    x_train, y_train, x_test, y_test = vectorize_split_data(speech_df)
 
     
