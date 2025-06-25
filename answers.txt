@@ -1,6 +1,6 @@
 Answers to the text questions go here.
 
-part D answer :    
+part 1 D answer :    
     1- Technical text : this method relies on sentences lenght and syllable count to asses dificulty 
         however this can sometimes lead to inaccurate results. for example if a text is about an abstract
         subject that is hard to understand but is written in simple words , would get a low fk score 
@@ -10,4 +10,82 @@ part D answer :
         fk can not detect literacy devices that increase cognative load,such as metaphors, irony, idioms.
         A sentence that is grammatically simple but conceptually profound or ironic
         might score as "easy" even if it requires significant interpretation.
+
+part 2 f :
+
+    simple spacy tokenizer 
+     Random forest f1 score:
+0.4600704615790516
+
+ Random forest classification report:
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
+                         precision    recall  f1-score   support
+
+           Conservative       0.72      0.98      0.83       963
+                 Labour       0.79      0.43      0.56       463
+       Liberal Democrat       0.00      0.00      0.00        54
+Scottish National Party       0.91      0.30      0.45       136
+
+               accuracy                           0.73      1616
+              macro avg       0.60      0.43      0.46      1616
+           weighted avg       0.73      0.73      0.69      1616
+
+
+ SVM f1 score:
+0.6639617429961562
+
+ SVM classification report:
+                         precision    recall  f1-score   support
+
+           Conservative       0.85      0.92      0.89       963
+                 Labour       0.75      0.72      0.74       463
+       Liberal Democrat       0.72      0.24      0.36        54
+Scottish National Party       0.76      0.60      0.67       136
+
+               accuracy                           0.82      1616
+              macro avg       0.77      0.62      0.66      1616
+           weighted avg       0.81      0.82      0.81      1616
+
+simple spacy tokenizer with ngram :
+ Random forest f1 score:
+0.5005661545458824
+
+ Random forest classification report:
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
+                         precision    recall  f1-score   support
+
+           Conservative       0.74      0.98      0.84       963
+                 Labour       0.81      0.49      0.61       463
+       Liberal Democrat       0.00      0.00      0.00        54
+Scottish National Party       0.95      0.38      0.54       136
+
+               accuracy                           0.76      1616
+              macro avg       0.62      0.46      0.50      1616
+           weighted avg       0.75      0.76      0.72      1616
+
+
+ SVM f1 score:
+0.6700603862654232
+
+ SVM classification report:
+                         precision    recall  f1-score   support
+
+           Conservative       0.86      0.93      0.89       963
+                 Labour       0.77      0.74      0.75       463
+       Liberal Democrat       0.79      0.20      0.32        54
+Scottish National Party       0.79      0.65      0.71       136
+
+               accuracy                           0.83      1616
+              macro avg       0.80      0.63      0.67      1616
+           weighted avg       0.82      0.83      0.82      1616
 

@@ -136,5 +136,5 @@ if __name__=="__main__":
 
     print('\n\n custome tokenizer ')
 
-    x_train, x_test, y_train, y_test = vectorize_split_data(speech_df,False,True)
+    x_train, x_test, y_train, y_test = vectorize_split_data(speech_df,True,True)
     train_and_evaluate(x_train, x_test, y_train, y_test)
