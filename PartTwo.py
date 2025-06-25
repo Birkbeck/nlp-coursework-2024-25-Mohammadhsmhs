@@ -1,6 +1,9 @@
 import pandas as pd 
 from pathlib import Path
 
+from sklearn.feature_extraction.text import TfidfVectorizer # Import TfidfVectorizer
+from sklearn.model_selection import train_test_split 
+
 
 def prepare_speech_data(path):
     """
@@ -37,7 +40,24 @@ def prepare_speech_data(path):
     return df
 
     
-# def vectorize_split_data():
+def vectorize_split_data(df):
+    """
+    Vectorise the speeches using TfidfVectorizer from scikit-learn. Use the default 5
+    parameters, except for omitting English stopwords and setting max_features to
+    3000. Split the data into a train and test set, using stratified sampling, with a
+    random seed of 26.
+    """
+    random_seed = 26
+    vectorizer = TfidfVectorizer(stop_words='English', max_features=3000)
+    X = vectorizer.fit_transform(df['speech'])
+    y = df['party']
+
+    print(x_train, x_test, y_train, y_test = train_test_split(
+        X, y, test_size=0.2, random_state=random_seed, stratify=y
+    ))
+    print (x_train, y_train, x_test, y_test)
+    return x_train, y_train, x_test, y_test
+
 
 
 if __name__=="__main__":
@@ -47,3 +67,7 @@ if __name__=="__main__":
     csv_file = data_dir / "hansard40000.csv"
 
     speech_df =  prepare_speech_data(csv_file)
+
+    x_train, y_train, x_test, y_test = train_test_split(speech_df)
+
+    
