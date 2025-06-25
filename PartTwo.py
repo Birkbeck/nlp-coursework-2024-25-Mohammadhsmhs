@@ -42,7 +42,7 @@ def prepare_speech_data(path):
     
 def vectorize_split_data(df):
     """
-    Vectorise the speeches using TfidfVectorizer from scikit-learn. Use the default 5
+    Vectorise the speeches using TfidfVectorizer from scikit-learn. Use the default
     parameters, except for omitting English stopwords and setting max_features to
     3000. Split the data into a train and test set, using stratified sampling, with a
     random seed of 26.
@@ -52,14 +52,13 @@ def vectorize_split_data(df):
     X = vectorizer.fit_transform(df['speech'])
     y = df['party']
 
-    x_train, y_train, x_test, y_test = train_test_split(
+    
+
+    x_train, x_test, y_train, y_test = train_test_split(
         X, y, test_size=0.2, random_state=random_seed, stratify=y
     )
 
-    print(f"X_train shape: {x_train.shape}")
-    print(f"X_test shape: {x_test.shape}")
-    print(f"y_train shape: {y_train.shape}")
-    print(f"y_test shape: {y_test.shape}")
+   
  
     return x_train, y_train, x_test, y_test
 
