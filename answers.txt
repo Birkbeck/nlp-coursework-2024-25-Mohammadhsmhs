@@ -89,3 +89,100 @@ Scottish National Party       0.79      0.65      0.71       136
               macro avg       0.80      0.63      0.67      1616
            weighted avg       0.82      0.83      0.82      1616
 
+tokenizer with content pos tag result :
+ Random forest f1 score:
+0.44818778423105693
+
+ Random forest classification report:
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
+                         precision    recall  f1-score   support
+
+           Conservative       0.72      0.98      0.83       963
+                 Labour       0.78      0.43      0.56       463
+       Liberal Democrat       0.00      0.00      0.00        54
+Scottish National Party       0.97      0.26      0.41       136
+
+               accuracy                           0.73      1616
+              macro avg       0.62      0.42      0.45      1616
+           weighted avg       0.73      0.73      0.69      1616
+
+
+ SVM f1 score:
+0.6617519544202101
+
+ SVM classification report:
+                         precision    recall  f1-score   support
+
+           Conservative       0.85      0.92      0.88       963
+                 Labour       0.75      0.73      0.74       463
+       Liberal Democrat       0.68      0.24      0.36        54
+Scottish National Party       0.76      0.60      0.67       136
+
+               accuracy                           0.82      1616
+              macro avg       0.76      0.62      0.66      1616
+           weighted avg       0.81      0.82      0.81      1616
+
+
+tokenizer with content pos tag and ngram:
+
+ Random forest f1 score:
+0.4862210826070143
+
+ Random forest classification report:
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
+/Library/Frameworks/Python.framework/Versions/3.13/lib/python3.13/site-packages/sklearn/metrics/_classification.py:1706: UndefinedMetricWarning: Precision is ill-defined and being set to 0.0 in labels with no predicted samples. Use `zero_division` parameter to control this behavior.
+  _warn_prf(average, modifier, f"{metric.capitalize()} is", result.shape[0])
+                         precision    recall  f1-score   support
+
+           Conservative       0.74      0.97      0.84       963
+                 Labour       0.77      0.49      0.59       463
+       Liberal Democrat       0.00      0.00      0.00        54
+Scottish National Party       0.94      0.35      0.51       136
+
+               accuracy                           0.75      1616
+              macro avg       0.61      0.45      0.49      1616
+           weighted avg       0.74      0.75      0.71      1616
+
+
+ SVM f1 score:
+0.6707745583440761
+
+ SVM classification report:
+                         precision    recall  f1-score   support
+
+           Conservative       0.85      0.93      0.89       963
+                 Labour       0.77      0.74      0.76       463
+       Liberal Democrat       0.85      0.20      0.33        54
+Scottish National Party       0.79      0.64      0.71       136
+
+               accuracy                           0.83      1616
+              macro avg       0.82      0.63      0.67      1616
+           weighted avg       0.83      0.83      0.82      1616
+
+
+.07 , 10 , False ,False :
+ Random forest f1 score:
+0.43877253352051926
+ SVM f1 score:
+0.6603707921691535
+
+
+True, 1,3
+ Random forest f1 score:
+0.395018759531735
+ SVM f1 score:
+0.6938948361137456
+
+True, 1,3:
+ Random forest f1 score:
+0.3806093856642491
+ SVM f1 score:
+0.6931279019972288
