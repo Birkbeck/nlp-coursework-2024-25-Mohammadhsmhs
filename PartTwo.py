@@ -44,7 +44,7 @@ def prepare_speech_data(path):
     return df
 
     
-def vectorize_split_data(df):
+def vectorize_split_data(df,with_ngram = False):
     """
     Vectorise the speeches using TfidfVectorizer from scikit-learn. Use the default
     parameters, except for omitting English stopwords and setting max_features to
@@ -52,7 +52,11 @@ def vectorize_split_data(df):
     random seed of 26.
     """
     random_seed = 26
-    vectorizer = TfidfVectorizer(stop_words='english', max_features=3000)
+    if not with_ngram:
+        vectorizer = TfidfVectorizer(stop_words='english', max_features=3000)
+    else:
+        vectorizer = TfidfVectorizer(stop_words='english', max_features=3000, ngram_range=(1,3))
+
     X = vectorizer.fit_transform(df['speech'])
     y = df['party']
 
@@ -111,4 +115,9 @@ if __name__=="__main__":
 
     train_and_evaluate(x_train, x_test, y_train, y_test)
 
+    print('\n\n\n now repeating the proccess with unigrams, bi-grams and tri-grams will be considered as features')
+
+    x_train, x_test, y_train, y_test = vectorize_split_data(speech_df, True)
+
+    train_and_evaluate(x_train, x_test, y_train, y_test)
     
