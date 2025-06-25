@@ -1,8 +1,12 @@
 import pandas as pd 
-from pathlib import Path
 
 from sklearn.feature_extraction.text import TfidfVectorizer 
 from sklearn.model_selection import train_test_split 
+
+from sklearn.ensemble import RandomForestClassifier 
+from pathlib import Path
+from sklearn.svm import LinearSVC 
+from sklearn.metrics import classification_report, f1_score 
 
 
 def prepare_speech_data(path):
@@ -60,7 +64,38 @@ def vectorize_split_data(df):
 
    
  
-    return x_train, y_train, x_test, y_test
+    return x_train, x_test, y_train, y_test
+
+def train_and_evaluate(x_train, x_test, y_train, y_test):
+
+    """
+    Train RandomForest (with n_estimators=300) and SVM with linear kernel clas- 5
+    sifiers on the training set, and print the scikit-learn macro-average f1 score and
+    classification report for each classifier on the test set. The label that you are
+    trying to predict is the ‘party’ value.
+    """
+    random_seed = 6
+    n_estimators = 300
+
+    rf_classifier = RandomForestClassifier(n_estimators=n_estimators,random_state=random_seed)
+    svm_classifier = LinearSVC(dual=False ,random_state=random_seed)
+
+    rf_classifier.fit(x_train, y_train)
+    svm_classifier.fit(x_train,y_train)
+
+    rf_prediction = rf_classifier.predict(x_test)
+    svm_prediction = svm_classifier.predict(x_test)
+
+    print("\n Random forest f1 score:")
+    print(f1_score(y_test,rf_prediction,average='macro'))
+    print("\n Random forest classification report:")
+    print(classification_report(y_test,rf_prediction))
+
+    print("\n SVM f1 score:")
+    print(f1_score(y_test,svm_prediction,average='macro'))
+    print("\n SVM classification report:")
+    print(classification_report(y_test,svm_prediction))
+
 
 
 
@@ -72,6 +107,8 @@ if __name__=="__main__":
 
     speech_df =  prepare_speech_data(csv_file)
 
-    x_train, y_train, x_test, y_test = vectorize_split_data(speech_df)
+    x_train, x_test, y_train, y_test = vectorize_split_data(speech_df)
+
+    train_and_evaluate(x_train, x_test, y_train, y_test)
 
     
