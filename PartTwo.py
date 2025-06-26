@@ -17,17 +17,17 @@ def spacy_tokenizer(text):
     doc = nlp(text)
     content_pos_tags = {"NOUN", "PROPN", "ADJ", "VERB", "ADV"}
 
-    # min_token_len = 3
+    min_token_len = 3
     # max_token_len = 20
     tokens = [
         token.lemma_.lower() 
         for token in doc 
-        if not token.is_punct and           
-           not token.like_num and
-            not token.is_stop and        
-           token.pos_ in content_pos_tags
-            #  and 
-        #    len(token.lemma_) >= min_token_len
+        # if not token.is_punct and           
+        #    not token.like_num and
+            # not token.is_stop and        
+           if token.pos_ in content_pos_tags
+             and 
+           len(token.lemma_) >= min_token_len
            
          ]
     return tokens
@@ -82,10 +82,11 @@ def vectorize_split_data(df,with_ngram = False, use_custom_tokenizer=False):
          vectorizer = TfidfVectorizer( ngram_range=(1,3),max_features=3000,
         
         tokenizer=tokenizer,
-        # stop_words='english',
-        min_df=3,      
-        max_df=0.999 ,sublinear_tf=True,
-        norm="l2")
+        stop_words='english',
+        min_df=10,      
+        max_df=0.999 ,
+        sublinear_tf=True,
+        )
     elif not with_ngram:
         vectorizer = TfidfVectorizer(stop_words='english', max_features=3000,tokenizer=tokenizer)
     else:
@@ -116,7 +117,7 @@ def train_and_evaluate(x_train, x_test, y_train, y_test):
     n_estimators = 300
 
     rf_classifier = RandomForestClassifier(n_estimators=n_estimators,random_state=random_seed)
-    svm_classifier = LinearSVC(dual=False ,random_state=random_seed, class_weight='balanced',C=0.1)
+    svm_classifier = LinearSVC(dual=False ,random_state=random_seed)
 
     rf_classifier.fit(x_train, y_train)
     svm_classifier.fit(x_train,y_train)
@@ -145,15 +146,15 @@ if __name__=="__main__":
 
     speech_df =  prepare_speech_data(csv_file)
 
-    # x_train, x_test, y_train, y_test = vectorize_split_data(speech_df)
+    x_train, x_test, y_train, y_test = vectorize_split_data(speech_df)
 
-    # train_and_evaluate(x_train, x_test, y_train, y_test)
+    train_and_evaluate(x_train, x_test, y_train, y_test)
 
-    # print('\n\n\n now repeating the proccess with unigrams, bi-grams and tri-grams will be considered as features')
+    print('\n\n\n now repeating the proccess with unigrams, bi-grams and tri-grams will be considered as features')
 
-    # x_train, x_test, y_train, y_test = vectorize_split_data(speech_df, True)
+    x_train, x_test, y_train, y_test = vectorize_split_data(speech_df, True)
 
-    # train_and_evaluate(x_train, x_test, y_train, y_test)
+    train_and_evaluate(x_train, x_test, y_train, y_test)
 
     print('\n\n custome tokenizer ')
 
