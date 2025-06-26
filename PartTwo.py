@@ -15,20 +15,17 @@ def spacy_tokenizer(text):
     
 
     doc = nlp(text)
-    content_pos_tags = {"NOUN", "PROPN", "ADJ", "VERB", "ADV"}
+    content_pos_tags = {"NOUN", "PROPN", "ADJ", "VERB", "ADV", "PRON"}
 
-    min_token_len = 3
+    # min_token_len = 2
     # max_token_len = 20
     tokens = [
         token.lemma_.lower() 
         for token in doc 
-        # if not token.is_punct and           
-        #    not token.like_num and
-            # not token.is_stop and        
-           if token.pos_ in content_pos_tags
-             and 
-           len(token.lemma_) >= min_token_len
-           
+        if not token.is_punct and           
+           not token.like_num and
+           not token.is_stop and        
+           token.pos_ in content_pos_tags 
          ]
     return tokens
 
@@ -79,18 +76,16 @@ def vectorize_split_data(df,with_ngram = False, use_custom_tokenizer=False):
 
     tokenizer = spacy_tokenizer if use_custom_tokenizer else None
     if use_custom_tokenizer and with_ngram:
-         vectorizer = TfidfVectorizer( ngram_range=(1,3),max_features=3000,
-        
+        vectorizer = vectorizer = TfidfVectorizer( ngram_range=(1,3),
         tokenizer=tokenizer,
-        stop_words='english',
         min_df=10,      
         max_df=0.999 ,
-        sublinear_tf=True,
+        sublinear_tf=True
         )
     elif not with_ngram:
-        vectorizer = TfidfVectorizer(stop_words='english', max_features=3000,tokenizer=tokenizer)
+        vectorizer = TfidfVectorizer(stop_words='english', max_features=3000)
     else:
-        vectorizer = TfidfVectorizer(stop_words='english', max_features=3000, ngram_range=(1,3),tokenizer=tokenizer)
+        vectorizer = TfidfVectorizer(stop_words='english', max_features=3000, ngram_range=(1,3))
 
     X = vectorizer.fit_transform(df['speech'])
     y = df['party']
@@ -113,7 +108,7 @@ def train_and_evaluate(x_train, x_test, y_train, y_test):
     classification report for each classifier on the test set. The label that you are
     trying to predict is the ‘party’ value.
     """
-    random_seed = 26
+    random_seed = 6
     n_estimators = 300
 
     rf_classifier = RandomForestClassifier(n_estimators=n_estimators,random_state=random_seed)
