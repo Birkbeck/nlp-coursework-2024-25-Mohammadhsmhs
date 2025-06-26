@@ -227,3 +227,7 @@ True, 1,2:
 0.38133376155867843
 
 disablig idf resulted in lower accuracy 
+
+disabled min_len and set min_df to 3 along with C=0.1 on train and class_weight='balanced' :
+ SVM f1 score:
+0.7173388163845029

@@ -17,7 +17,7 @@ def spacy_tokenizer(text):
     doc = nlp(text)
     content_pos_tags = {"NOUN", "PROPN", "ADJ", "VERB", "ADV"}
 
-    min_token_len = 4
+    # min_token_len = 3
     # max_token_len = 20
     tokens = [
         token.lemma_.lower() 
@@ -25,8 +25,9 @@ def spacy_tokenizer(text):
         if not token.is_punct and           
            not token.like_num and
             not token.is_stop and        
-           token.pos_ in content_pos_tags and 
-           len(token.lemma_) >= min_token_len
+           token.pos_ in content_pos_tags
+            #  and 
+        #    len(token.lemma_) >= min_token_len
            
          ]
     return tokens
@@ -82,7 +83,7 @@ def vectorize_split_data(df,with_ngram = False, use_custom_tokenizer=False):
         
         tokenizer=tokenizer,
         # stop_words='english',
-        min_df=2,      
+        min_df=3,      
         max_df=0.999 ,sublinear_tf=True,
         norm="l2")
     elif not with_ngram:
@@ -115,7 +116,7 @@ def train_and_evaluate(x_train, x_test, y_train, y_test):
     n_estimators = 300
 
     rf_classifier = RandomForestClassifier(n_estimators=n_estimators,random_state=random_seed)
-    svm_classifier = LinearSVC(dual=False ,random_state=random_seed)
+    svm_classifier = LinearSVC(dual=False ,random_state=random_seed, class_weight='balanced',C=0.1)
 
     rf_classifier.fit(x_train, y_train)
     svm_classifier.fit(x_train,y_train)
