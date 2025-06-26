@@ -79,7 +79,7 @@ def vectorize_split_data(df,with_ngram = False, use_custom_tokenizer=False):
         vectorizer = vectorizer = TfidfVectorizer( ngram_range=(1,3),
         tokenizer=tokenizer,
         min_df=5,      
-        max_df=1 ,sublinear_tf=True)
+        max_df=0.999 ,sublinear_tf=True)
     elif not with_ngram:
         vectorizer = TfidfVectorizer(stop_words='english', max_features=3000,tokenizer=tokenizer)
     else:
