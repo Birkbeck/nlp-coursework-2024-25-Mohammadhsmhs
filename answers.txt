@@ -225,3 +225,5 @@ True, 1,2:
 0.7041839255252322
  Random forest f1 score:
 0.38133376155867843
+
+disablig idf resulted in lower accuracy 

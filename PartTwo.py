@@ -15,17 +15,19 @@ def spacy_tokenizer(text):
     
 
     doc = nlp(text)
-    content_pos_tags = {"NOUN", "PROPN", "ADJ", "VERB", "ADV", "PRON"}
+    content_pos_tags = {"NOUN", "PROPN", "ADJ", "VERB", "ADV"}
 
-    # min_token_len = 2
+    min_token_len = 4
     # max_token_len = 20
     tokens = [
         token.lemma_.lower() 
         for token in doc 
-        # if not token.is_punct and           
-        #    not token.like_num and
-        #    if not token.is_stop and        
-          if token.pos_ in content_pos_tags 
+        if not token.is_punct and           
+           not token.like_num and
+            not token.is_stop and        
+           token.pos_ in content_pos_tags and 
+           len(token.lemma_) >= min_token_len
+           
          ]
     return tokens
 
@@ -76,11 +78,13 @@ def vectorize_split_data(df,with_ngram = False, use_custom_tokenizer=False):
 
     tokenizer = spacy_tokenizer if use_custom_tokenizer else None
     if use_custom_tokenizer and with_ngram:
-        vectorizer = vectorizer = TfidfVectorizer( ngram_range=(1,2),
+         vectorizer = TfidfVectorizer( ngram_range=(1,3),max_features=3000,
+        
         tokenizer=tokenizer,
-        stop_words='english',
-        min_df=5,      
-        max_df=0.999 ,sublinear_tf=False)
+        # stop_words='english',
+        min_df=2,      
+        max_df=0.999 ,sublinear_tf=True,
+        norm="l2")
     elif not with_ngram:
         vectorizer = TfidfVectorizer(stop_words='english', max_features=3000,tokenizer=tokenizer)
     else:
@@ -107,7 +111,7 @@ def train_and_evaluate(x_train, x_test, y_train, y_test):
     classification report for each classifier on the test set. The label that you are
     trying to predict is the ‘party’ value.
     """
-    random_seed = 6
+    random_seed = 26
     n_estimators = 300
 
     rf_classifier = RandomForestClassifier(n_estimators=n_estimators,random_state=random_seed)
