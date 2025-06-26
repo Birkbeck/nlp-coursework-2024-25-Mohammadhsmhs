@@ -22,10 +22,10 @@ def spacy_tokenizer(text):
     tokens = [
         token.lemma_.lower() 
         for token in doc 
-        if not token.is_punct and           
-           not token.like_num and
-           not token.is_stop and        
-           token.pos_ in content_pos_tags 
+        # if not token.is_punct and           
+        #    not token.like_num and
+        #    if not token.is_stop and        
+          if token.pos_ in content_pos_tags 
          ]
     return tokens
 
@@ -76,10 +76,11 @@ def vectorize_split_data(df,with_ngram = False, use_custom_tokenizer=False):
 
     tokenizer = spacy_tokenizer if use_custom_tokenizer else None
     if use_custom_tokenizer and with_ngram:
-        vectorizer = vectorizer = TfidfVectorizer( ngram_range=(1,3),
+        vectorizer = vectorizer = TfidfVectorizer( ngram_range=(1,2),
         tokenizer=tokenizer,
+        stop_words='english',
         min_df=5,      
-        max_df=0.999 ,sublinear_tf=True)
+        max_df=0.999 ,sublinear_tf=False)
     elif not with_ngram:
         vectorizer = TfidfVectorizer(stop_words='english', max_features=3000,tokenizer=tokenizer)
     else:

@@ -207,7 +207,7 @@ True, 1,2:
  Random forest f1 score:
 0.3509494817071971
 
-0.999, 5, stop_words in tokenizer , (1,1):
+0.999, 5, stop_words in tokenizer , (1,1), sublinear true:
  Random forest f1 score:
 0.38433026574809603
  SVM f1 score:
